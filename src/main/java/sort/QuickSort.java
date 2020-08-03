@@ -15,16 +15,20 @@ public class QuickSort {
         if (low < high) {
             p_pos = low;
             pivot = array[p_pos];
-            for (i = low + 1; i <= high; i++)
+            System.out.println("pivot:"+pivot);
+            for (i = low + 1; i <= high; i++) {
                 if (array[i] > pivot) {
                     p_pos++;
                     t = array[p_pos];
                     array[p_pos] = array[i];
                     array[i] = t;
+                    System.out.println(JSON.toJSONString(array));
                 }
+            }
             t = array[low];
             array[low] = array[p_pos];
             array[p_pos] = t;
+            System.out.println("----"+JSON.toJSONString(array));
             // 分而治之
             sort(array, low, p_pos - 1);// 排序左半部分
             sort(array, p_pos + 1, high);// 排序右半部分
@@ -36,7 +40,7 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int[] temp  = {1,5,3,4,7,6,9,2};
+        int[] temp  = {3,1,5,3,4,7,6,9,2};
         sort(temp);
         System.out.println(JSON.toJSONString(temp));
     }
