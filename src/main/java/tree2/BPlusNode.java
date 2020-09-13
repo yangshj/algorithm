@@ -1,7 +1,8 @@
 package tree2;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 
@@ -631,6 +632,42 @@ public class BPlusNode<K extends Comparable<K>, V> {
             System.out.println();
             for (int i = 0; i < children.size(); ++i)
                 children.get(i).printBPlusTree(index + 1);
+        }
+    }
+
+
+    public void printBPlusTree1(int index,  Map<Integer, List<List<Entry<K, V>>>> map) {
+        addToMapRecursion(index, map);
+        for(Map.Entry<Integer, List<List<Entry<K, V>>>> entry : map.entrySet()){
+            Integer mapKey = entry.getKey();
+            List<List<Entry<K, V>>> mapValue = entry.getValue();
+            for(List<Entry<K, V>> item : mapValue){
+                System.out.print(JSON.toJSONString(item)+"\t");
+            }
+            System.out.println();
+        }
+
+    }
+
+    // 递归添加到map
+    private void addToMapRecursion(int index,  Map<Integer, List<List<Entry<K, V>>>> map){
+        if (this.isLeaf) {
+                addToMap(index, entries, map);
+        } else {
+            addToMap(index, entries, map);
+            for (int i = 0; i < children.size(); ++i) {
+                children.get(i).addToMapRecursion(index + 1, map);
+            }
+        }
+    }
+
+    private void addToMap(Integer i, List<Entry<K, V>> entries, Map<Integer, List<List<Entry<K, V>>>> map){
+        if(map.containsKey(i)){
+            map.get(i).add(entries);
+        } else {
+            List<List<Entry<K, V>>> list = new ArrayList();
+            list.add(entries);
+            map.put(i, list);
         }
     }
 }

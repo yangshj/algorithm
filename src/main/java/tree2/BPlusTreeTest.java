@@ -8,19 +8,42 @@ public class BPlusTreeTest {
     // 测试
     public static void main(String[] args) {
 
-        int size = 10;
-        int order = 3;
-        testRandomInsert(size, order);
+//        int size = 10;
+//        int order = 3;
+//        testRandomInsert(size, order);
+//
+//        testOrderInsert(size, order);
+//
+//        testRandomSearch(size, order);
+//
+//        testOrderSearch(size, order);
+//
+//        testRandomRemove(size, order);
+//
+//        testOrderRemove(size, order);
 
-        testOrderInsert(size, order);
+        testInsert(10,3);
+    }
 
-        testRandomSearch(size, order);
-
-        testOrderSearch(size, order);
-
-        testRandomRemove(size, order);
-
-        testOrderRemove(size, order);
+    private static void testInsert(int size, int order){
+        BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(order);
+        System.out.println("Begin order insert...");
+        for (int i = 1; i<= size; i++) {
+            tree.insertOrUpdate(i, i);
+        }
+        tree.printBPlusTree1();
+        System.out.println("Begin order remove...");
+        long current = System.currentTimeMillis();
+        for (int j = 1; j<= size; j++) {
+            if (tree.remove(j) == null) {
+                System.err.println("得不到数据:" + j);
+                break;
+            }
+        }
+        long duration = System.currentTimeMillis() - current;
+        System.out.println("time elpsed for duration: " + duration);
+        tree.printBPlusTree1();
+        System.out.println(tree.getHeight());
     }
 
     private static void testOrderRemove(int size, int order) {

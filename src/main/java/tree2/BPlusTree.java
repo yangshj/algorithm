@@ -1,5 +1,9 @@
 package tree2;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * B+树的定义：
  * 1.任意非叶子结点最多有M个子节点；且M>2；M为B+树的阶数
@@ -88,5 +92,12 @@ public class BPlusTree<K extends Comparable<K>, V> {
 
     public void printBPlusTree() {
         this.root.printBPlusTree(0);
+    }
+
+    public void printBPlusTree1() {
+        System.out.println();
+        // 用于打印
+        Map<Integer, List<List<Map.Entry<K, V>>>> map = new HashMap<>();
+        this.root.printBPlusTree1(0, map);
     }
 }
