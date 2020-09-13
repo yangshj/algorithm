@@ -638,13 +638,30 @@ public class BPlusNode<K extends Comparable<K>, V> {
 
     public void printBPlusTree1(int index,  Map<Integer, List<List<Entry<K, V>>>> map) {
         addToMapRecursion(index, map);
+        int hight = map.size(); // 树高
+        int leastleafLength = 0; // 最底层叶子节点的字符串长度
+        if(hight>1){
+            List<List<Entry<K, V>>> mapValue = map.get(hight-1);
+            for(List<Entry<K, V>> item : mapValue){
+                String temp = JSON.toJSONString(item)+" ";
+                leastleafLength = temp.length() + leastleafLength;
+            }
+        }
         for(Map.Entry<Integer, List<List<Entry<K, V>>>> entry : map.entrySet()){
             Integer mapKey = entry.getKey();
             List<List<Entry<K, V>>> mapValue = entry.getValue();
+            int currentLeafLength = 0; //当前叶子节点长度
+            String temp = "";
             for(List<Entry<K, V>> item : mapValue){
-                System.out.print(JSON.toJSONString(item)+"\t");
+                temp += JSON.toJSONString(item)+" ";
             }
-            System.out.println();
+            currentLeafLength = temp.length()+currentLeafLength;
+            // 补充空格
+            for(int i=0; i<((leastleafLength-currentLeafLength)/2); i++){
+                System.out.print(" ");
+            }
+            // 真正输出
+            System.out.println(temp);
         }
 
     }
